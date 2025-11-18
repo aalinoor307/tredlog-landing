@@ -1,64 +1,61 @@
-// ---------- Firebase INITIALIZATION ----------
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+// firebase.js
+// Using Firebase v10 CDN modules for GitHub Pages (no bundler needed)
 
-// Your Firebase config (copied from console)
+// Import from Firebase CDN
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+// 🔑 Your Firebase config
+// (Copy this object from the Firebase console: Project settings → General → "Your apps" → Web app)
 const firebaseConfig = {
-  apiKey: "AIzaSyC0vRac18mY1-NfSdFyRew29mr6XtiicE",
+  apiKey: "PASTE_YOUR_API_KEY_HERE",
   authDomain: "tredlog.firebaseapp.com",
   projectId: "tredlog",
-  storageBucket: "tredlog.firebasestorage.app",
-  messagingSenderId: "413439073810",
-  appId: "1:413439073810:web:063f1aba63644dee65b98b",
-  measurementId: "G-LRVB77H7QV"
+  storageBucket: "tredlog.appspot.com",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID",
+  measurementId: "YOUR_MEASUREMENT_ID"
 };
 
 // Init Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
 
-// ---------- Google Sign-in ----------
-export async function signInGoogle() {
-  const provider = new GoogleAuthProvider();
+// Make functions visible to HTML (window = global browser object)
+window.loginWithGoogle = async function () {
   try {
-    const result = await signInWithPopup(auth, provider);
-    localStorage.setItem("user", JSON.stringify(result.user));
-    window.location.href = "app.html";  // Go to dashboard
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
+
+    // Store minimal info locally (just for front-end routing)
+    localStorage.setItem("tredlogUser", JSON.stringify({
+      uid: user.uid,
+      email: user.email,
+      name: user.displayName,
+      photoURL: user.photoURL
+    }));
+
+    // Go to dashboard page
+    window.location.href = "app.html";
   } catch (err) {
-    alert("Login error: " + err.message);
+    console.error("Google login error", err);
+    alert("Google login failed: " + err.message);
   }
-}
+};
 
-// ---------- Email Login (front-end only for now) ----------
-export function fakeEmailLogin(email) {
-  localStorage.setItem("user", JSON.stringify({ email }));
-  window.location.href = "app.html";
-}
-
-// ---------- Logout ----------
-export function logout() {
-  signOut(auth);
-  localStorage.removeItem("user");
-  window.location.href = "index.html";
-}
-
-// ---------- OpenAI Bot ----------
-export async function askBot(question) {
-  const res = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer YOUR_OPENAI_API_KEY"
-    },
-    body: JSON.stringify({
-      model: "gpt-4o-mini",
-      messages: [
-        { role: "system", content: "You are TredLog AI assistant. Help with trading journal, discipline scoring, setups, etc." },
-        { role: "user", content: question }
-      ]
-    })
-  });
-
-  const data = await res.json();
-  return data.choices[0].message.content;
-}
+window.logoutUser = async function () {
+  try {
+    await signOut(auth);
+    localStorage.removeItem("tredlogUser");
+    window.location.href = "index.html";
+  } catch (err) {
+    console.error("Logout error", err);
+    alert("Logout failed: " + err.message);
+  }
+};
