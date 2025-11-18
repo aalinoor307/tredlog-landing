@@ -1,7 +1,7 @@
 // firebase.js
-// Using Firebase v10 CDN modules for GitHub Pages (no bundler needed)
+// Firebase v10 CDN modules (perfect for GitHub Pages)
 
-// Import from Firebase CDN
+// Import Firebase core + Auth from CDN
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
   getAuth,
@@ -10,30 +10,29 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// 🔑 Your Firebase config
-// (Copy this object from the Firebase console: Project settings → General → "Your apps" → Web app)
+// Your Firebase configuration
 const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY_HERE",
+  apiKey: "AIzaSyCvoqRacI8nYl-Nf5dfyRew29mGXtiilc",
   authDomain: "tredlog.firebaseapp.com",
   projectId: "tredlog",
-  storageBucket: "tredlog.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID",
-  measurementId: "YOUR_MEASUREMENT_ID"
+  storageBucket: "tredlog.firebasestorage.app",
+  messagingSenderId: "413349387810",
+  appId: "1:413349387810:web:063f1ba0e36644dee0589b",
+  measurementId: "G-LRV7H7TQW"
 };
 
-// Init Firebase
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
+const provider = new GoogleAuthProvider();
 
-// Make functions visible to HTML (window = global browser object)
+// Make login function available to HTML
 window.loginWithGoogle = async function () {
   try {
-    const result = await signInWithPopup(auth, googleProvider);
+    const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
-    // Store minimal info locally (just for front-end routing)
+    // Save minimal user info to localStorage
     localStorage.setItem("tredlogUser", JSON.stringify({
       uid: user.uid,
       email: user.email,
@@ -41,21 +40,22 @@ window.loginWithGoogle = async function () {
       photoURL: user.photoURL
     }));
 
-    // Go to dashboard page
+    // Redirect to dashboard
     window.location.href = "app.html";
   } catch (err) {
-    console.error("Google login error", err);
-    alert("Google login failed: " + err.message);
+    console.error("Google Login Error:", err);
+    alert("Login failed: " + err.message);
   }
 };
 
+// Logout helper
 window.logoutUser = async function () {
   try {
     await signOut(auth);
     localStorage.removeItem("tredlogUser");
     window.location.href = "index.html";
   } catch (err) {
-    console.error("Logout error", err);
+    console.error("Logout error:", err);
     alert("Logout failed: " + err.message);
   }
 };
