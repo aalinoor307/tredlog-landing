@@ -12,13 +12,15 @@ import {
 
 // Your Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCvoqRacI8nYl-Nf5dfyRew29mGXtiilc",
+  const firebaseConfig = {
+  apiKey: "PASTE_YOUR_API_KEY_HERE",
   authDomain: "tredlog.firebaseapp.com",
   projectId: "tredlog",
-  storageBucket: "tredlog.firebasestorage.app",
-  messagingSenderId: "413349387810",
-  appId: "1:413349387810:web:063f1ba0e36644dee0589b",
-  measurementId: "G-LRV7H7TQW"
+  storageBucket: "tredlog.appspot.com",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID",
+  measurementId: "YOUR_MEASUREMENT_ID"
+};
 };
 
 // Initialize Firebase
