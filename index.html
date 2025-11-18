@@ -407,7 +407,9 @@
           Later you can connect real auth on your backend.
         </div>
 
-        <button class="btn btn-primary btn-auth" onclick="handleGoogle()">
+        <button class="btn primary" onclick="loginWithGoogle()">
+  🔑 Sign in with Google
+</button>
           🔑 Sign in with Google
         </button>
         <button class="btn btn-ghost btn-auth" onclick="alert('Apple sign-in coming soon')">
@@ -479,25 +481,34 @@
     }
     fakeEmailLogin(email);
   };
+window.askTredlog = async () => {
+  const box = document.getElementById("botQuestion");
+  const out = document.getElementById("botAnswer");
+  const question = (box.value || "").trim();
 
-  window.askTredlog = async () => {
-    const box = document.getElementById("botQuestion");
-    const out = document.getElementById("botAnswer");
-    const question = (box.value || "").trim();
-    if (!question) {
-      out.textContent = "Type a question first.";
-      return;
-    }
-    out.textContent = "Thinking...";
-    try {
-      const reply = await askBot(question);
-      out.textContent = reply;
-    } catch (err) {
-      console.error(err);
-      out.innerHTML =
-        "<span class='error-text'>Could not reach your AI backend. Make sure askBot() in firebase.js points to your server.</span>";
-    }
-  };
+  if (!question) {
+    out.textContent = "Type a question first.";
+    return;
+  }
+
+  out.textContent = "Thinking...";
+
+  try {
+    const reply = await askBot(question);
+    out.textContent = reply;
+  } catch (err) {
+    console.error(err);
+    out.innerHTML =
+      "<span class='error-text'>Could not reach your AI backend. Make sure askBot() in firebase.js points to your server.</span>";
+  }
+};
 </script>
+
+<!-- Load Firebase login + AI bot logic -->
+<script type="module" src="firebase.js"></script>
 </body>
 </html>
+
+
+
+
