@@ -15,13 +15,13 @@ import {
 // (copied from your screenshot)
 //
 const firebaseConfig = {
-  apiKey: "AIzaSyC0VQRaCi8mY1-Nf5dfyRew29mr6XtiicE",
+  apiKey: "AIzaSyCOVqRaCi8mYi-Nf5dfyRewZ9mr6XtiicE",
   authDomain: "tredlog.firebaseapp.com",
   projectId: "tredlog",
   storageBucket: "tredlog.firebasestorage.app",
-  messagingSenderId: "413349037810",
-  appId: "1:413349037810:web:063f1aba63644dee65b98b",
-  measurementId: "G-LRVT7H70YW"
+  messagingSenderId: "413340937810",
+  appId: "1:413340937810:web:063f1aba63664dee65b98b",
+  measurementId: "G-LRV7HT70YW"
 };
 
 // --- Init Firebase + Auth ---
