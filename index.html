@@ -1,680 +1,747 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>TredLog • Probability-driven trading journal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <head>
+    <meta charset="UTF-8" />
+    <title>TredLog • Probability-driven trading journal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Basic SEO -->
-  <meta name="description"
-        content="TredLog turns your trades into a probability-driven edge. Log setups, discipline and R &amp; PnL in one clean dashboard.">
-  <meta name="keywords"
-        content="TredLog, trading journal, probabilities, R multiples, discipline score, trading log">
-  <meta property="og:title" content="TredLog • Probability-driven trading journal">
-  <meta property="og:description"
-        content="Track your trades, discipline and R &amp; PnL in one clean web-based execution journal.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://tredlog.com">
+    <!-- Basic SEO -->
+    <meta
+      name="description"
+      content="TredLog turns your trades into a probability-driven edge. Track setups, rules, discipline scores and R & PnL in one clean web-based execution journal."
+    />
+    <meta
+      name="keywords"
+      content="TredLog, trading journal, probabilities, R multiples, discipline score, trading log, funded traders"
+    />
+    <link rel="canonical" href="https://tredlog.com/" />
 
-  <!-- Favicon (put favicon.png in this repo root) -->
-  <link rel="icon" type="image/png" href="favicon.png" />
+    <!-- Open Graph (social) -->
+    <meta property="og:title" content="TredLog • Probability-driven trading journal" />
+    <meta
+      property="og:description"
+      content="Track your trades, discipline and R & PnL in one clean dashboard. See which rules you truly follow and let the AI coach your next decision."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tredlog.com/" />
 
-  <style>
-    :root {
-      --bg: #050816;
-      --bg-alt: #0b1020;
-      --card: #111827;
-      --border-soft: rgba(148, 163, 184, 0.25);
-      --accent: #fbbf24;
-      --accent-soft: rgba(251, 191, 36, 0.2);
-      --text: #f9fafb;
-      --muted: #9ca3af;
-      --error: #f97373;
-      --radius: 18px;
-    }
+    <!-- Favicon (put favicon.png at repo root) -->
+    <link rel="icon" type="image/png" href="favicon.png" />
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-      background: radial-gradient(circle at top left, #1f2933 0, #020617 55%, #000 100%);
-      color: var(--text);
-      padding: 24px 16px 32px;
-    }
-
-    .shell {
-      max-width: 1160px;
-      margin: 0 auto;
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-      gap: 16px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo-dot {
-      width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, #facc15, #f97316 55%, #ea580c 100%);
-      display: inline-block;
-      box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.25);
-    }
-
-    .brand-title {
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      font-size: 20px;
-    }
-
-    .tagline {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .badge {
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: rgba(34, 197, 94, 0.12);
-      color: #bbf7d0;
-      border: 1px solid rgba(34, 197, 94, 0.35);
-      white-space: nowrap;
-    }
-
-    .btn {
-      border-radius: 999px;
-      border: 1px solid transparent;
-      padding: 8px 18px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.08s ease, border-color 0.08s ease;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #fbbf24, #f59e0b);
-      color: #111827;
-      box-shadow: 0 18px 40px rgba(251, 191, 36, 0.25);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 22px 45px rgba(251, 191, 36, 0.3);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      border-color: rgba(148, 163, 184, 0.4);
-      color: var(--text);
-    }
-
-    .btn-ghost:hover {
-      border-color: rgba(148, 163, 184, 0.65);
-      background: rgba(15, 23, 42, 0.7);
-    }
-
-    main {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-      gap: 28px;
-    }
-
-    @media (max-width: 880px) {
-      main {
-        grid-template-columns: minmax(0, 1fr);
+    <style>
+      :root {
+        --bg: #050713;
+        --bg-alt: #0c0f22;
+        --panel: #101429;
+        --panel-alt: #161c3a;
+        --accent: #ffc447;
+        --accent-soft: rgba(255, 196, 71, 0.13);
+        --accent-strong: #f9a826;
+        --text-main: #f9fafb;
+        --text-muted: #9ca3af;
+        --border-subtle: rgba(148, 163, 184, 0.35);
+        --error: #f97373;
+        --radius-lg: 18px;
+        --radius-xl: 24px;
+        --shadow-soft: 0 18px 60px rgba(15, 23, 42, 0.9);
       }
-    }
 
-    .hero {
-      background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.18), transparent 55%);
-      padding: 26px 24px 24px;
-      border-radius: 24px;
-      border: 1px solid rgba(148, 163, 184, 0.25);
-      box-shadow: 0 28px 80px rgba(15, 23, 42, 0.8);
-    }
+      * {
+        box-sizing: border-box;
+      }
 
-    .hero-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      margin-bottom: 14px;
-    }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Segoe UI", sans-serif;
+        background: radial-gradient(circle at top, #1f2937 0, #050713 45%, #020617 100%);
+        color: var(--text-main);
+        -webkit-font-smoothing: antialiased;
+      }
 
-    .hero-pill strong {
-      color: #fde68a;
-    }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
 
-    .hero-title {
-      font-size: clamp(30px, 4vw, 38px);
-      line-height: 1.1;
-      margin-bottom: 10px;
-    }
+      .shell {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 32px 20px 40px;
+      }
 
-    .hero-title span {
-      color: var(--accent);
-    }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 28px;
+      }
 
-    .hero-sub {
-      font-size: 14px;
-      color: var(--muted);
-      max-width: 520px;
-      margin-bottom: 18px;
-    }
+      .logo-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-    .hero-cta {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
+      .logo-icon {
+        width: 26px;
+        height: 26px;
+        border-radius: 999px;
+        background: radial-gradient(circle at 30% 25%, #fef9c3, #f97316);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 12px 30px rgba(248, 250, 252, 0.16);
+      }
 
-    .hero-meta {
-      font-size: 11px;
-      color: var(--muted);
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
-    }
+      .logo-text {
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        font-size: 18px;
+      }
 
-    .hero-meta span::before {
-      content: "• ";
-      color: rgba(148, 163, 184, 0.7);
-    }
+      .header-cta {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
 
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 10px;
-      margin-top: 8px;
-    }
+      .header-cta-pill {
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.25);
+      }
 
-    .feature-card {
-      background: rgba(15, 23, 42, 0.9);
-      border-radius: var(--radius);
-      border: 1px solid rgba(31, 41, 55, 0.9);
-      padding: 10px 11px;
-      font-size: 11px;
-      color: var(--muted);
-    }
+      .header-cta-pill.positive {
+        border-color: rgba(16, 185, 129, 0.6);
+        color: #a7f3d0;
+      }
 
-    .feature-title {
-      color: var(--text);
-      font-weight: 500;
-      font-size: 12px;
-      margin-bottom: 2px;
-    }
+      main {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr);
+        gap: 26px;
+      }
 
-    .feature-tag-row {
-      margin-top: 5px;
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      font-size: 10px;
-    }
+      /* Left: hero + features */
 
-    .feature-tag {
-      padding: 2px 7px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      color: var(--muted);
-    }
+      .hero-card {
+        background: radial-gradient(circle at top left, #111827 0, #020617 60%);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-soft);
+        padding: 24px 22px 24px;
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
 
-    .auth-col {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
+      .hero-pill-row {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        font-size: 11px;
+        font-weight: 500;
+      }
 
-    .card {
-      background: var(--card);
-      border-radius: 24px;
-      border: 1px solid var(--border-soft);
-      padding: 18px 18px 16px;
-      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.9);
-    }
+      .hero-pill-main {
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid rgba(52, 211, 153, 0.65);
+        color: #a7f3d0;
+      }
 
-    .auth-title {
-      font-size: 14px;
-      font-weight: 500;
-      margin-bottom: 6px;
-    }
+      .hero-pill-sub {
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px dashed rgba(148, 163, 184, 0.5);
+        color: var(--text-muted);
+      }
 
-    .auth-subtitle {
-      font-size: 11px;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
+      .hero-title {
+        font-size: 32px;
+        line-height: 1.15;
+        max-width: 460px;
+      }
 
-    .auth-divider {
-      text-align: center;
-      font-size: 11px;
-      color: var(--muted);
-      margin: 12px 0;
-      position: relative;
-    }
+      .hero-title span.accent {
+        background-image: linear-gradient(120deg, #facc15, #fb923c);
+        -webkit-background-clip: text;
+        color: transparent;
+      }
 
-    .auth-divider::before,
-    .auth-divider::after {
-      content: "";
-      height: 1px;
-      background: rgba(30, 64, 175, 0.6);
-      width: 30%;
-      position: absolute;
-      top: 50%;
-    }
+      .hero-subtitle {
+        font-size: 13px;
+        color: var(--text-muted);
+        max-width: 440px;
+      }
 
-    .auth-divider::before {
-      left: 0;
-    }
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
 
-    .auth-divider::after {
-      right: 0;
-    }
+      .btn-primary,
+      .btn-ghost {
+        border-radius: 999px;
+        padding: 9px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.08s ease, box-shadow 0.12s ease, background 0.12s ease,
+          border-color 0.12s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
 
-    .auth-label {
-      display: block;
-      font-size: 11px;
-      color: var(--muted);
-      margin-bottom: 4px;
-    }
+      .btn-primary {
+        background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+        color: #111827;
+        box-shadow: 0 10px 36px rgba(251, 191, 36, 0.4);
+      }
 
-    .auth-input {
-      width: 100%;
-      padding: 9px 10px;
-      border-radius: 10px;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      background: #020617;
-      color: var(--text);
-      font-size: 13px;
-    }
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 40px rgba(251, 191, 36, 0.6);
+      }
 
-    .auth-input:focus {
-      outline: none;
-      border-color: rgba(248, 250, 252, 0.8);
-      box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.8);
-    }
+      .btn-ghost {
+        background: rgba(15, 23, 42, 0.9);
+        color: var(--text-muted);
+        border: 1px solid rgba(148, 163, 184, 0.45);
+      }
 
-    .auth-help {
-      font-size: 10px;
-      color: var(--muted);
-      margin-top: 6px;
-    }
+      .btn-ghost:hover {
+        border-color: rgba(248, 250, 252, 0.7);
+        color: #e5e7eb;
+      }
 
-    .auth-help a {
-      color: #e5e7eb;
-      text-decoration: underline;
-      text-decoration-style: dotted;
-    }
+      .hero-meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 2px;
+      }
 
-    .auth-error {
-      font-size: 11px;
-      color: var(--error);
-      margin-top: 4px;
-      min-height: 14px;
-    }
+      .hero-meta-pill {
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        color: var(--text-muted);
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(148, 163, 184, 0.25);
+      }
 
-    .bot-header {
-      font-size: 11px;
-      color: var(--muted);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-    }
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 4px;
+      }
 
-    .bot-header span {
-      font-size: 11px;
-    }
+      .feature-card {
+        padding: 10px 11px;
+        border-radius: 14px;
+        background: radial-gradient(circle at top, #111827 0, #020617 60%);
+        border: 1px solid rgba(55, 65, 81, 0.7);
+      }
 
-    .bot-powered {
-      font-size: 10px;
-      color: #bbf7d0;
-      background: rgba(34, 197, 94, 0.12);
-      border-radius: 999px;
-      padding: 3px 7px;
-      border: 1px solid rgba(34, 197, 94, 0.35);
-      white-space: nowrap;
-    }
+      .feature-label {
+        font-size: 11px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
 
-    .bot-box {
-      background: #020617;
-      border-radius: 14px;
-      border: 1px solid rgba(31, 41, 55, 0.9);
-      padding: 8px 9px;
-      min-height: 96px;
-      font-size: 12px;
-      margin-bottom: 6px;
-    }
+      .feature-text {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+      }
 
-    .bot-input-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 6px;
-    }
+      .feature-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        font-size: 10px;
+        color: #d1d5db;
+      }
 
-    .bot-input {
-      flex: 1;
-      padding: 8px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      background: #020617;
-      color: var(--text);
-      font-size: 12px;
-    }
+      .feature-tag {
+        padding: 3px 7px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(75, 85, 99, 0.8);
+      }
 
-    .bot-input:focus {
-      outline: none;
-      border-color: rgba(148, 163, 184, 0.8);
-      box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.7);
-    }
+      /* Right: auth + AI */
 
-    footer {
-      margin-top: 22px;
-      font-size: 11px;
-      color: var(--muted);
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      flex-wrap: wrap;
-      border-top: 1px solid rgba(15, 23, 42, 0.9);
-      padding-top: 10px;
-    }
+      .auth-column {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
 
-    footer a {
-      color: var(--muted);
-      text-decoration: none;
-    }
+      .auth-card,
+      .bot-card {
+        background: var(--panel);
+        border-radius: var(--radius-xl);
+        padding: 16px 16px 14px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        box-shadow: var(--shadow-soft);
+      }
 
-    footer a:hover {
-      color: #e5e7eb;
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
-  <div class="shell">
-    <!-- Top bar -->
-    <header>
-      <div class="brand">
-        <span class="logo-dot"></span>
-        <div>
-          <div class="brand-title">TredLog</div>
-          <!-- tagline REMOVED -->
+      .auth-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 8px;
+      }
+
+      .auth-title {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .auth-sub {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .auth-google-btn {
+        width: 100%;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: var(--accent-soft);
+        color: var(--text-main);
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        transition: background 0.12s ease, transform 0.08s ease, box-shadow 0.12s ease;
+      }
+
+      .auth-google-btn:hover {
+        background: rgba(251, 191, 36, 0.2);
+        box-shadow: 0 12px 30px rgba(248, 250, 252, 0.08);
+        transform: translateY(-1px);
+      }
+
+      .auth-divider {
+        text-align: center;
+        font-size: 10px;
+        color: var(--text-muted);
+        margin: 4px 0 10px;
+        position: relative;
+      }
+
+      .auth-divider::before,
+      .auth-divider::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 30%;
+        height: 1px;
+        background: rgba(55, 65, 81, 0.8);
+      }
+
+      .auth-divider::before {
+        left: 0;
+      }
+
+      .auth-divider::after {
+        right: 0;
+      }
+
+      .auth-field {
+        margin-bottom: 8px;
+      }
+
+      .auth-label {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+        display: block;
+      }
+
+      .auth-input {
+        width: 100%;
+        border-radius: 999px;
+        padding: 7px 11px;
+        border: 1px solid rgba(55, 65, 81, 0.9);
+        background: rgba(15, 23, 42, 0.95);
+        color: var(--text-main);
+        font-size: 12px;
+      }
+
+      .auth-input:focus {
+        outline: none;
+        border-color: rgba(251, 191, 36, 0.7);
+        box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.3);
+      }
+
+      .auth-submit {
+        margin-top: 2px;
+        width: 100%;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        background: linear-gradient(135deg, #1d4ed8, #22c55e);
+        color: #e5e7eb;
+        box-shadow: 0 10px 32px rgba(37, 99, 235, 0.5);
+        transition: transform 0.08s ease, box-shadow 0.12s ease;
+      }
+
+      .auth-submit:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 13px 38px rgba(37, 99, 235, 0.7);
+      }
+
+      .auth-footnote {
+        margin-top: 6px;
+        font-size: 10px;
+        color: var(--text-muted);
+      }
+
+      /* Bot card */
+
+      .bot-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 6px;
+      }
+
+      .bot-title {
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .bot-badge {
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 9px;
+        color: #bbf7d0;
+        border: 1px solid rgba(52, 211, 153, 0.7);
+        background: rgba(6, 78, 59, 0.7);
+      }
+
+      .bot-sub {
+        font-size: 11px;
+        color: var(--text-muted);
+        margin-bottom: 8px;
+      }
+
+      .bot-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 6px;
+      }
+
+      .bot-question {
+        width: 100%;
+        min-height: 46px;
+        border-radius: 12px;
+        padding: 7px 9px;
+        border: 1px solid rgba(55, 65, 81, 0.9);
+        background: rgba(15, 23, 42, 0.96);
+        color: var(--text-main);
+        font-size: 12px;
+        resize: vertical;
+      }
+
+      .bot-answer {
+        width: 100%;
+        min-height: 60px;
+        border-radius: 12px;
+        padding: 8px 9px;
+        border: 1px solid rgba(75, 85, 99, 0.95);
+        background: rgba(15, 23, 42, 0.98);
+        color: var(--text-main);
+        font-size: 12px;
+        line-height: 1.4;
+        white-space: pre-wrap;
+      }
+
+      .bot-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 5px;
+        gap: 8px;
+      }
+
+      .bot-meta {
+        font-size: 10px;
+        color: var(--text-muted);
+      }
+
+      .bot-send-btn {
+        padding: 6px 14px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        background: var(--accent);
+        color: #111827;
+        box-shadow: 0 8px 24px rgba(251, 191, 36, 0.5);
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: transform 0.08s ease, box-shadow 0.12s ease, background 0.12s ease;
+      }
+
+      .bot-send-btn:hover {
+        background: var(--accent-strong);
+        transform: translateY(-1px);
+        box-shadow: 0 11px 30px rgba(251, 191, 36, 0.7);
+      }
+
+      .error-text {
+        color: var(--error);
+      }
+
+      footer {
+        margin-top: 18px;
+        font-size: 11px;
+        color: var(--text-muted);
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+        border-top: 1px solid rgba(31, 41, 55, 0.9);
+        padding-top: 10px;
+      }
+
+      @media (max-width: 920px) {
+        main {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .hero-card {
+          order: 1;
+        }
+        .auth-column {
+          order: 2;
+        }
+      }
+
+      @media (max-width: 640px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <div class="logo-row">
+          <div class="logo-icon"></div>
+          <div class="logo-text">TredLog</div>
         </div>
-      </div>
-
-      <div class="top-actions">
-        <button class="btn btn-ghost" onclick="launchDashboard()">Launch dashboard</button>
-        <span class="badge">Local session • Data stored in your browser</span>
-      </div>
-    </header>
-
-    <!-- Main layout -->
-    <main>
-      <!-- LEFT: Hero -->
-      <section class="hero">
-        <div class="hero-pill">
-          <strong>For serious traders</strong>
-          <span>No spreadsheets. No noise. Just clean data.</span>
+        <div class="header-cta">
+          <div class="header-cta-pill">Local session • Data stored in your browser</div>
+          <div class="header-cta-pill positive">Built for serious traders</div>
         </div>
+      </header>
 
-        <h1 class="hero-title">
-          Turn your trades into a <span>probability-driven</span> edge.
-        </h1>
-        <p class="hero-sub">
-          TredLog tracks your trades, discipline and R &amp; PnL in one place.
-          Log each setup, see which rules you truly follow and let the dashboard coach your next decision.
-        </p>
-
-        <div class="hero-cta">
-          <button class="btn btn-primary" onclick="launchDashboard()">
-            ▸ Sign in &amp; open dashboard
-          </button>
-          <button class="btn btn-ghost" onclick="scrollToBot()">
-            Watch how the AI coach works
-          </button>
-        </div>
-
-        <div class="hero-meta">
-          <span>Built for funded &amp; aspiring funded traders</span>
-          <span>Designed to be used daily – not once a month</span>
-        </div>
-
-        <div class="features-grid">
-          <div class="feature-card">
-            <div class="feature-title">Weighted checklist</div>
-            Score each trade by rules met per setup. See discipline per entry, not per month.
-            <div class="feature-tag-row">
-              <span class="feature-tag">Rule score per setup</span>
-              <span class="feature-tag">Discipline heat-map</span>
-            </div>
-          </div>
-          <div class="feature-card">
-            <div class="feature-title">Equity curve in R</div>
-            See performance independent of lot size. Keep your focus on execution quality.
-            <div class="feature-tag-row">
-              <span class="feature-tag">R-based PnL</span>
-              <span class="feature-tag">Variance control</span>
-            </div>
-          </div>
-          <div class="feature-card">
-            <div class="feature-title">Behaviour tracking</div>
-            Emotion tags, time-of-day and session data for every trade – spot your patterns.
-            <div class="feature-tag-row">
-              <span class="feature-tag">Emotion tags</span>
-              <span class="feature-tag">Session bias</span>
-            </div>
-          </div>
-          <div class="feature-card">
-            <div class="feature-title">Calendar + exports</div>
-            Calendar view of PnL + trade count, CSV/JSON backups in one click.
-            <div class="feature-tag-row">
-              <span class="feature-tag">CSV / JSON export</span>
-              <span class="feature-tag">Over-trading alerts</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- RIGHT: Auth + Bot -->
-      <section class="auth-col">
-        <!-- Auth card -->
-        <div class="card">
-          <div class="auth-title">Sign in to TredLog</div>
-          <div class="auth-subtitle">
-            Simple sign in for now – it just opens your dashboard and remembers you in this browser.
+      <main>
+        <!-- LEFT: hero + features -->
+        <section class="hero-card">
+          <div class="hero-pill-row">
+            <span class="hero-pill-main">For serious traders</span>
+            <span class="hero-pill-sub">No spreadsheets. No noise. Just clean data.</span>
           </div>
 
-          <button class="btn btn-primary" style="width: 100%; margin-top: 4px;" onclick="handleGoogle()">
-            🔑 Sign in with Google
-          </button>
+          <h1 class="hero-title">
+            Turn your trades into a <span class="accent">probability-driven</span> edge.
+          </h1>
 
-          <div class="auth-divider">
-            <span>or continue with email</span>
-          </div>
+          <p class="hero-subtitle">
+            TredLog tracks your trades, discipline and R &amp; PnL in one place. Log each
+            setup, see which rules you truly follow and let the dashboard coach your next
+            decision.
+          </p>
 
-          <label class="auth-label" for="emailInput">Email address</label>
-          <input id="emailInput" class="auth-input" type="email" placeholder="you@example.com" />
-
-          <label class="auth-label" for="passwordInput" style="margin-top: 6px;">Password</label>
-          <input id="passwordInput" class="auth-input" type="password" placeholder="Min 6 characters" />
-
-          <button class="btn btn-ghost" style="width: 100%; margin-top: 10px;" onclick="handleEmail()">
-            Continue with email
-          </button>
-
-          <div id="authError" class="auth-error"></div>
-
-          <div class="auth-help">
-            We use Firebase Auth. Accounts are stored securely by Google.
-          </div>
-        </div>
-
-        <!-- Bot card -->
-        <div class="card" id="bot-card">
-          <div class="bot-header">
-            <span>TredLog Assistant</span>
-            <span class="bot-powered">Powered by your AI backend</span>
-          </div>
-
-          <div id="botAnswer" class="bot-box">
-            Ask anything about journaling, discipline scoring or how to use the dashboard…
-          </div>
-
-          <div class="bot-input-row">
-            <input id="botQuestion" class="bot-input"
-                   placeholder="Ask about TredLog or trading journal setup…" />
-            <button class="btn btn-primary" style="padding-inline: 14px;" onclick="askTredlog()">
-              Send
+          <div class="hero-actions">
+            <button class="btn-primary" onclick="handleLaunchClick()">
+              ▸ Sign in &amp; open dashboard
+            </button>
+            <button class="btn-ghost">
+              Watch how the AI coach works
             </button>
           </div>
 
-          <div class="auth-help">
-            To get real AI answers, point the <code>ASK_ENDPOINT</code> below to your backend.
+          <div class="hero-meta-row">
+            <div class="hero-meta-pill">Built for funded &amp; aspiring funded traders</div>
+            <div class="hero-meta-pill">Designed to be used daily – not once a month</div>
           </div>
-        </div>
-      </section>
-    </main>
 
-    <!-- Footer -->
-    <footer>
-      <span>© 2025 TredLog. All rights reserved.</span>
-      <span>Contact: <a href="mailto:support@tredlog.com">support@tredlog.com</a></span>
-    </footer>
-  </div>
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="feature-label">Weighted checklist</div>
+              <div class="feature-text">
+                Score each trade by rules met per setup. See discipline per entry, not per
+                month.
+              </div>
+              <div class="feature-tags">
+                <span class="feature-tag">Rule score per setup</span>
+                <span class="feature-tag">Discipline heat-map</span>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-label">Equity curve in R</div>
+              <div class="feature-text">
+                See performance independent of lot size. Keep your focus on execution quality.
+              </div>
+              <div class="feature-tags">
+                <span class="feature-tag">R-based PnL</span>
+                <span class="feature-tag">Variance control</span>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-label">Behaviour tracking</div>
+              <div class="feature-text">
+                Emotion tags, time-of-day and session data for every trade – spot your
+                patterns.
+              </div>
+              <div class="feature-tags">
+                <span class="feature-tag">Emotion tags</span>
+                <span class="feature-tag">Session bias</span>
+              </div>
+            </div>
+            <div class="feature-card">
+              <div class="feature-label">Calendar + exports</div>
+              <div class="feature-text">
+                Calendar view of PnL &amp; trade count, CSV/JSON backups in one click.
+              </div>
+              <div class="feature-tags">
+                <span class="feature-tag">CSV / JSON export</span>
+                <span class="feature-tag">Over-trading alerts</span>
+              </div>
+            </div>
+          </div>
+        </section>
 
-  <!-- Firebase auth + helpers -->
-  <script type="module" src="firebase.js"></script>
+        <!-- RIGHT: auth + bot -->
+        <section class="auth-column">
+          <!-- Sign-in card -->
+          <div class="auth-card" id="signinCard">
+            <div class="auth-header-row">
+              <div>
+                <div class="auth-title">Sign in to TredLog</div>
+                <div class="auth-sub">
+                  Simple sign in – it opens your dashboard and remembers you in this browser.
+                </div>
+              </div>
+            </div>
 
-  <!-- Page wiring -->
-  <script>
-    function launchDashboard() {
-      if (typeof loginWithGoogle === "function") {
-        loginWithGoogle();
-      }
-    }
+            <button class="auth-google-btn" onclick="handleGoogleLogin()">
+              <span>🔑</span>
+              <span>Sign in with Google</span>
+            </button>
 
-    function scrollToBot() {
-      const el = document.getElementById("bot-card");
-      if (!el) return;
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
+            <div class="auth-divider">or continue with email</div>
 
-    async function handleGoogle() {
-      const errEl = document.getElementById("authError");
-      errEl.textContent = "";
-      try {
-        await loginWithGoogle();
-      } catch (err) {
-        console.error(err);
-        errEl.textContent = err.message || "Google sign-in failed.";
-      }
-    }
+            <div class="auth-field">
+              <label class="auth-label" for="emailInput">Email address</label>
+              <input
+                id="emailInput"
+                class="auth-input"
+                type="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+              />
+            </div>
 
-    async function handleEmail() {
-      const emailEl = document.getElementById("emailInput");
-      const passEl = document.getElementById("passwordInput");
-      const errorEl = document.getElementById("authError");
+            <div class="auth-field">
+              <label class="auth-label" for="passwordInput">Password</label>
+              <input
+                id="passwordInput"
+                class="auth-input"
+                type="password"
+                placeholder="••••••••"
+                autocomplete="current-password"
+              />
+            </div>
 
-      const email = (emailEl.value || "").trim();
-      const password = (passEl.value || "").trim();
+            <button class="auth-submit" onclick="handleEmailLogin()">
+              Continue with email
+            </button>
 
-      errorEl.textContent = "";
+            <div class="auth-footnote">
+              We use Firebase Auth. Accounts are stored securely by Google.
+            </div>
+          </div>
 
-      if (!email || !password) {
-        errorEl.textContent = "Enter both email and password.";
-        return;
-      }
+          <!-- Bot card -->
+          <div class="bot-card">
+            <div class="bot-header-row">
+              <div class="bot-title">TredLog Assistant</div>
+              <div class="bot-badge">Powered by your AI backend</div>
+            </div>
+            <div class="bot-sub">
+              Ask anything about journaling, discipline scoring or how to use the dashboard…
+            </div>
 
-      if (password.length < 6) {
-        errorEl.textContent = "Password must be at least 6 characters.";
-        return;
-      }
+            <div class="bot-layout">
+              <textarea
+                id="botQuestion"
+                class="bot-question"
+                placeholder="Ask about trade journaling, R-based risk, or how to score your discipline…"
+              ></textarea>
 
-      try {
-        await loginWithEmail(email, password);
-      } catch (err) {
-        console.error(err);
-        errorEl.textContent = err.message || "Email login failed.";
-      }
-    }
+              <div id="botAnswer" class="bot-answer">
+                AI backend is not connected yet. Once you deploy it and set ASK_ENDPOINT in
+                firebase.js, answers will show here.
+              </div>
+            </div>
 
-    // --- AI bot front-end ---
-    // TEMP: no backend yet -> just show a message instead of calling fetch.
-    const ASK_ENDPOINT = ""; // set later when backend is ready
+            <div class="bot-footer">
+              <div class="bot-meta">
+                To get real AI answers, point <code>ASK_ENDPOINT</code> in <code>firebase.js</code>
+                to your backend.
+              </div>
+              <button
+                id="botSendButton"
+                class="bot-send-btn"
+                type="button"
+                onclick="askTredlog()"
+              >
+                Send
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
 
-    async function askTredlog() {
-      const qEl = document.getElementById("botQuestion");
-      const outEl = document.getElementById("botAnswer");
-      const question = (qEl.value || "").trim();
+      <footer>
+        <div>© 2025 TredLog. All rights reserved.</div>
+        <div>Contact: <a href="mailto:support@tredlog.com">support@tredlog.com</a></div>
+      </footer>
+    </div>
 
-      if (!question) {
-        outEl.textContent = "Type a question first.";
-        return;
-      }
-
-      if (!ASK_ENDPOINT) {
-        outEl.textContent =
-          "AI backend is not connected yet. Once you deploy the Cloud Function, we’ll hook it up here.";
-        return;
-      }
-
-      outEl.textContent = "Thinking…";
-
-      try {
-        const res = await fetch(ASK_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question })
-        });
-
-        if (!res.ok) {
-          throw new Error("Server error: " + res.status);
-        }
-
-        const data = await res.json();
-        outEl.textContent = data.reply || "No reply received from AI.";
-      } catch (err) {
-        console.error(err);
-        outEl.innerHTML =
-          '<span class="error-text">Could not reach your AI backend. Make sure <code>ASK_ENDPOINT</code> points to your server.</span>';
-      }
-    }
-  </script>
-</body>
+    <!-- Load Firebase auth + AI logic -->
+    <script type="module" src="firebase.js"></script>
+  </body>
 </html>
