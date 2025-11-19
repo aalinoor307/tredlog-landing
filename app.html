@@ -1,33 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>TredLog • Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Immediately redirect to the real dashboard -->
-  <meta http-equiv="refresh" content="0;url=https://aalinoor307.github.io/ali-trading-dashboard/" />
-  <style>
-    body {
-      background: #062617;
-      color: #f5f5f5;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-    }
-    a { color: #fac515; }
-  </style>
-</head>
-<body>
-  <div style="text-align:center;">
-    <h1>Redirecting to your TredLog dashboard…</h1>
-    <p>
-      If nothing happens, <a href="https://aalinoor307.github.io/ali-trading-dashboard/">
-      click here to open it</a>.
-    </p>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>TredLog – opening your dashboard…</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- IMPORTANT: redirect straight to the old dashboard -->
+    <meta
+      http-equiv="refresh"
+      content="0;url=https://aalinoor307.github.io/ali-trading-dashboard/"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #020617;
+        color: #e5e7eb;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          sans-serif;
+      }
+      .box {
+        text-align: center;
+        padding: 24px 32px;
+        border-radius: 16px;
+        background: radial-gradient(
+          circle at top,
+          rgba(250, 204, 21, 0.15),
+          transparent 55%
+        );
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        max-width: 420px;
+      }
+      h1 {
+        font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+      }
+      p {
+        margin: 0.35rem 0;
+        font-size: 0.9rem;
+        color: #94a3b8;
+      }
+      a {
+        color: #facc15;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <h1>Opening your TredLog dashboard…</h1>
+      <p>You should be redirected automatically.</p>
+      <p>
+        If nothing happens,<br />
+        <a href="https://aalinoor307.github.io/ali-trading-dashboard/">
+          click here to open the dashboard
+        </a>
+        .
+      </p>
+    </div>
+  </body>
 </html>
