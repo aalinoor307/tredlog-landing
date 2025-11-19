@@ -116,7 +116,10 @@
         border: 1px solid rgba(148, 163, 184, 0.25);
       }
 
-      .header-cta-pill.positive {
+ <button class="btn-primary" onclick="handleEmail()">
+  Continue with email
+</button>
+
         border-color: rgba(16, 185, 129, 0.6);
         color: #a7f3d0;
       }
@@ -204,7 +207,10 @@
         gap: 8px;
       }
 
-      .btn-primary {
+      <button class="btn-primary" onclick="handleEmail()">
+  Continue with email
+</button>
+
         background: linear-gradient(135deg, var(--accent), var(--accent-strong));
         color: #111827;
         box-shadow: 0 10px 36px rgba(251, 191, 36, 0.4);
@@ -741,7 +747,74 @@
       </footer>
     </div>
 
-    <!-- Load Firebase auth + AI logic -->
-    <script type="module" src="firebase.js"></script>
+   >
   </body>
 </html>
+<script>
+  // ===== CONFIG =====
+  // Where the real dashboard lives
+  const DASHBOARD_URL = "https://aalinoor307.github.io/ali-trading-dashboard/";
+
+  // ===== SHARED HELPER =====
+  function openDashboard() {
+    window.location.href = DASHBOARD_URL;
+  }
+
+  // ===== BUTTON HANDLERS =====
+
+  // 1) "Sign in & open dashboard" + "Launch dashboard"
+  function handleLaunchClick() {
+    openDashboard();
+  }
+
+  // 2) "Sign in with Google"
+  //    For now this is a fake login: we just remember the provider
+  function handleGoogle() {
+    const fakeUser = {
+      provider: "google",
+      ts: Date.now()
+    };
+
+    try {
+      localStorage.setItem("tredlogUser", JSON.stringify(fakeUser));
+    } catch (e) {
+      console.error("localStorage error", e);
+    }
+
+    openDashboard();
+  }
+
+  // 3) "Continue with email"
+  //    Works, but stays on landing page. Dashboard is opened separately.
+  function handleEmail() {
+    const emailInput = document.getElementById("emailInput");
+    const email = (emailInput?.value || "").trim();
+
+    if (!email) {
+      if (emailInput) emailInput.focus();
+      alert("Please enter an email address.");
+      return;
+    }
+
+    const user = {
+      provider: "email",
+      email,
+      ts: Date.now()
+    };
+
+    try {
+      localStorage.setItem("tredlogUser", JSON.stringify(user));
+    } catch (e) {
+      console.error("localStorage error", e);
+    }
+
+    alert(
+      "Email saved for this browser session.\nNow click “Sign in & open dashboard” or “Launch dashboard” to open your journal."
+    );
+  }
+
+  // Expose functions globally for the inline onclick="" handlers
+  window.handleLaunchClick = handleLaunchClick;
+  window.handleGoogle = handleGoogle;
+  window.handleEmail = handleEmail;
+</script>
